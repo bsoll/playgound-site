@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playground</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --fg: #e6e6e6;
+      --muted: #9aa0a6;
+      --accent: #4da3ff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+    }
+
+    main {
+      max-width: 900px;
+      padding: 2.5rem 1.25rem;
+      margin: 0 auto;
+    }
+
+    h1, h2 {
+      font-weight: 600;
+      margin-top: 0;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      max-width: 65ch;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .links a {
+      margin-right: 1.25rem;
+    }
+
+    .project {
+      border-left: 3px solid #222;
+      padding-left: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .project h3 {
+      margin: 0 0 0.25rem 0;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .project p {
+      margin: 0.25rem 0 0.5rem 0;
+    }
+
+    footer {
+      margin-top: 4rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <!-- Intro -->
+    <h1>Hey, I’m B.</h1>
+    <p>
+      I mess around with maps, GIS, and small web tools.
+      This site is where experiments live.
+    </p>
+
+    <div class="links">
+      <a href="#projects">Projects</a>
+      <a href="https://github.com/" target="_blank">GitHub</a>
+      <a href="mailto:you@yourdomain.com">Contact</a>
+    </div>
+
+    <!-- Projects -->
+    <h2 id="projects">Projects</h2>
+
+    <div class="project">
+      <h3>Community Risk Map</h3>
+      <p class="muted">Web mapping experiment</p>
+      <p>
+        Prototype map exploring data visualization and performance tradeoffs.
+      </p>
+      <a href="#">Demo</a> · <a href="#">Code</a>
+    </div>
+
+    <div class="project">
+      <h3>Leaflet Playground</h3>
+      <p class="muted">Maps / experiments</p>
+      <p>
+        A sandbox for testing layers, projections, and interaction patterns.
+      </p>
+      <a href="#">Demo</a> · <a href="#">Code</a>
+    </div>
+
+    <div class="project">
+      <h3>Unfinished Tool</h3>
+      <p class="muted">Abandoned (for now)</p>
+      <p>
+        Started as a utility, ended as a learning exercise.
+      </p>
+      <a href="#">Notes</a>
+    </div>
+
+    <footer>
+      <p>Built as a low-effort playground. It will evolve.</p>
+    </footer>
+  </main>
+</body>
+</html>
