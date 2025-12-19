@@ -1,0 +1,141 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no" />
+  <title>Vicinity Map Builder</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css" />
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      position: relative;
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    #frameDiv {
+      display: None;
+      pointer-events: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      text-align: center;
+      margin-right: -50%;
+      width: 325px;
+      height: 325px;
+      transform: translate(-50%, -50%);
+      border: 10px solid rgba(0, 0, 0, 0.5);
+    }
+  </style>
+
+  <script src="https://js.arcgis.com/4.23/"></script>
+  <script>
+    require([
+      "esri/views/MapView",
+      "esri/widgets/Search",
+      "esri/widgets/Print",
+      "esri/widgets/Print/TemplateOptions",
+      "esri/widgets/BasemapGallery",
+      "esri/widgets/Expand",
+      "esri/WebMap"
+    ], (
+      MapView,
+      Search,
+      Print,
+      TemplateOptions,
+      BasemapGallery,
+      Expand,
+      WebMap
+    ) => {
+      const webmap = new WebMap({
+        portalItem: {
+          // autocasts as new PortalItem()
+          id: "67372ff42cd145319639a99152b15bc3"
+        }
+      });
+      const view = new MapView({
+        container: "viewDiv",
+        map: webmap,
+        center: [-89.69, 35.05], // Collierville, TN
+        zoom: 13
+      });
+      const search = new Search({
+        view: view,
+        popupEnabled: false,
+        resultGraphicEnabled: false,
+      });
+      const pTemplate = new TemplateOptions({
+        attributionEnabled: false,
+        fileName: "vicinity_map",
+        layout: "MAP_ONLY",
+        format: "jpg", 
+        scale: view.scale,
+        scaleEnabled: true,
+        dpi: "96",
+        height: 325,
+        width: 325
+      });
+      const print = new Print({
+        view: view,
+        container: document.createElement("div"),
+        // allowedFormats: ["jpg"],
+        // allowedLayouts: ["letter-ansi-a-landscape","map-only"],
+        templateOptions: pTemplate,
+        // specify your own print service
+        printServiceUrl: "https://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+      });
+      //Expand Print
+      const pExpand = new Expand({
+        view: view,
+        content: print
+      });
+      //Add basemap
+      const basemapGallery = new BasemapGallery({
+        view: view,
+        container: document.createElement("div")
+      });
+      const bgExpand = new Expand({
+        view: view,
+        content: basemapGallery
+      });
+      // Watch for the map scale to update print scale
+      view.watch("scale", (newValue) =>{
+        pTemplate.scale = newValue;
+      });
+      // Watch for the print widget to expand
+      pExpand.watch("expanded", (newValue, oldValue) => {
+        if (newValue) {
+          document.getElementById("frameDiv").style.display = "Block";
+        } else {
+          document.getElementById("frameDiv").style.display = "None";
+        }
+      });
+      // Watch for the print widget to expand
+      pTemplate.watch(
+        "layout",
+        (newValue) => {
+          if (newValue === "MAP_ONLY") {
+            document.getElementById("frameDiv").style.display = "Block";
+          } else {
+            document.getElementById("frameDiv").style.display = "None";
+          };
+        });
+      // Add widget to the top right corner of the view
+      view.ui.add(search, "top-right");
+      view.ui.add(pExpand, "top-right");
+      view.ui.add(bgExpand, "bottom-left");
+    });
+  </script>
+</head>
+
+<body class="calcite">
+  <div id="viewDiv"></div>
+  <div id="frameDiv"><b>Use this box to frame your map</b></div>
+</body>
+
+</html>
